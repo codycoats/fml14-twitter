@@ -1,4 +1,5 @@
 import tweepy
+import os
 from config import Config
 
 keys = file('config.cfg')
@@ -16,7 +17,12 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 def process_user(user):
-    print user.screen_name + " " + str(user.verified)
+    file_name = './verified/'+user.screen_name+'.txt'
+    with open(file_name, 'w') as f:
+      s = user.screen_name + " " + str(user.verified)
 
-for friend in tweepy.Cursor(api.friends, id="verified").items():
+      f.write(s)
+      f.close()
+
+for friend in tweepy.Cursor(api.friends, id="verified").items(1):
   process_user(friend)
