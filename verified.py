@@ -17,7 +17,7 @@ access_token_secret= cfg.access_token_secret
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-api = tweepy.API(auth,parser=RawParser(), wait_on_rate_limit=True)
+api = tweepy.API(auth, wait_on_rate_limit=True)
 
 def process_user(user):
 
@@ -27,15 +27,15 @@ def process_user(user):
       os.makedirs(directory)
 
     #save user info
-    file_name = './verified/'+user.screen_name+'/'+user.screen_name+'_info.txt'
+    file_name = './verified/'+user.screen_name+'/'+user.screen_name+'_info.pickle'
     with open(file_name, 'w') as f:
-      json.dump(user, f)
+      pickle.dump(user, f)
 
     #save tweets
-    file_name = './verified/'+user.screen_name+'/'+user.screen_name+'_tweets.txt'
+    file_name = './verified/'+user.screen_name+'/'+user.screen_name+'_tweets.pickle'
     with open(file_name, 'a') as f:
       for tweet in api.user_timeline(id=user.screen_name):
-        json.dump(tweet, f)
+        pickle.dump(tweet, f)
 
-for friend in tweepy.Cursor(api.friends, id="verified").iteritems(1):
+for friend in tweepy.Cursor(api.friends, id="verified").items():
   process_user(friend)
