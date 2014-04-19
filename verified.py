@@ -21,8 +21,13 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 def process_user(user):
 
-    #create necessary directories
+    #check if data already collected
     user_directory = './verified/'+user.screen_name+'/'
+    if os.path.exists(user_directory) and os.listdir(user_directory):
+      print "User info already collected."
+      break
+
+    #create necessary directories
     if not os.path.exists(user_directory):
       os.makedirs(user_directory)
 
@@ -39,5 +44,5 @@ def process_user(user):
       for tweet in tweepy.Cursor(api.user_timeline,screen_name=user.screen_name).items(200):
         pickler.dump(tweet)
 
-for friend in tweepy.Cursor(api.friends, id="verified").items(1):
+for friend in tweepy.Cursor(api.friends, id="verified").items():
   process_user(friend)
