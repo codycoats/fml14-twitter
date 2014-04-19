@@ -1,3 +1,4 @@
 *.cfg
 verified/
+unverified/
 .DS_Store

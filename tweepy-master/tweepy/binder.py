@@ -6,6 +6,7 @@ import httplib
 import urllib
 import time
 import re
+import os
 from StringIO import StringIO
 import gzip
 from progressbar import ProgressBar
