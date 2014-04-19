@@ -8,6 +8,7 @@ import time
 import re
 from StringIO import StringIO
 import gzip
+from progressbar import ProgressBar
 
 from tweepy.error import TweepError
 from tweepy.utils import convert_to_utf8_str
@@ -145,7 +146,12 @@ def bind_api(**config):
                     if sleep_time > 0:
                         if self.wait_on_rate_limit_notify:
                           print "Max retries reached. Sleeping for: " + str(sleep_time)
-                        time.sleep(sleep_time + 5) # sleep for few extra sec
+                          with ProgressBar(maxval= sleep_time+5) as progress:
+                            for i in range(sleep_time+5):
+                              time.sleep(1)
+                              progress.update(i)
+                        else:
+                          time.sleep(sleep_time + 5) # sleep for few extra sec
 
                 # Open connection
                 if self.api.secure:
