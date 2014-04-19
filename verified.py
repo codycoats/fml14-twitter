@@ -24,8 +24,8 @@ def process_user(user):
     #check if data already collected
     user_directory = './verified/'+user.screen_name+'/'
     if os.path.exists(user_directory) and os.listdir(user_directory):
-      print "User info already collected."
-      break
+      print "User %s's info already collected.", user.screen_name
+      return
 
     #create necessary directories
     if not os.path.exists(user_directory):
